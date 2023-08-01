@@ -74,6 +74,7 @@ body() {
   return Expanded(
     child: SizedBox(
       child: ListView(
+        physics: const BouncingScrollPhysics(),
         padding: const EdgeInsets.symmetric(horizontal: 30),
         children: [
           spaceV(10),

@@ -9,6 +9,12 @@ dependencies:
   cupertino_icons: ^1.0.2
   get: 4.6.5
   google_fonts: 5.1.0
+  sliding_up_panel: 2.0.0+1
+  carousel_slider: 4.2.1
+  flutter_secure_storage: 8.0.0
+  another_flushbar: 1.12.30
+  flutter_svg: 2.0.7
+  cached_network_image: 3.2.3
   flutter: 
     sdk: flutter
 
@@ -17,10 +23,8 @@ dev_dependencies:
   flutter_test: 
     sdk: flutter
 
-
-
 flutter: 
-  assets:
+  assets: 
     - assets/
   uses-material-design: true
 

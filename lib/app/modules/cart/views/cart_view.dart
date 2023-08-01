@@ -13,15 +13,27 @@ class CartView extends GetView<CartController> {
       backgroundColor: bg1,
       extendBody: true,
       body: SafeArea(
-        child: Column(
-          children: [
-            header(),
-            body(),
-            totalPrice(),
-          ],
+        child: Obx(
+          () => Column(
+            children: [
+              header(),
+              controller.isLoading.value
+                  ? const Expanded(
+                      child: Center(
+                        child: CircularProgressIndicator(
+                          color: primaryTextColor,
+                        ),
+                      ),
+                    )
+                  : (controller.cartItems.isEmpty
+                      ? empty()
+                      : body(controller: controller)),
+              totalPrice(controller: controller),
+            ],
+          ),
         ),
       ),
-      bottomNavigationBar: buttonCheckout(),
+      bottomNavigationBar: buttonCheckout(controller: controller),
     );
   }
 }

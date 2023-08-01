@@ -9,6 +9,10 @@ abstract class Routes {
   static const MAIN = _Paths.MAIN;
   static const CART = _Paths.CART;
   static const CHAT_DETAIL = _Paths.CHAT_DETAIL;
+  static const CHECKOUT = _Paths.CHECKOUT;
+  static const CHECKOUT_SUCCESS = _Paths.CHECKOUT_SUCCESS;
+  static const PRODUCT_DETAIL = _Paths.PRODUCT_DETAIL;
+  static const EDIT_PROFILE = _Paths.EDIT_PROFILE;
 }
 
 abstract class _Paths {
@@ -19,4 +23,8 @@ abstract class _Paths {
   static const MAIN = '/main';
   static const CART = '/cart';
   static const CHAT_DETAIL = '/chat-detail';
+  static const CHECKOUT = '/checkout';
+  static const CHECKOUT_SUCCESS = '/checkout-success';
+  static const PRODUCT_DETAIL = '/product-detail';
+  static const EDIT_PROFILE = '/edit-profile';
 }

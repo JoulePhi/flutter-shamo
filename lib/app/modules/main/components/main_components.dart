@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:shamo/app/modules/main/controllers/home_controller.dart';
 import 'package:shamo/app/modules/main/controllers/main_controller.dart';
+import 'package:shamo/app/modules/main/controllers/profile_controller.dart';
+import 'package:shamo/app/modules/main/controllers/wishlist_controller.dart';
 import 'package:shamo/app/style.dart';
 import 'package:get/get.dart';
 
@@ -30,6 +33,9 @@ class BottomNavBar extends StatelessWidget {
                 child: IconButton(
                   onPressed: () {
                     controller.indexPage.value = 0;
+                    Get.put(HomeController());
+                    Get.delete<WishlistController>();
+                    Get.delete<ProfileController>();
                   },
                   icon: Image.asset(
                     'assets/home_icon.png',
@@ -61,6 +67,9 @@ class BottomNavBar extends StatelessWidget {
                 child: IconButton(
                   onPressed: () {
                     controller.indexPage.value = 2;
+                    Get.put(WishlistController());
+                    Get.delete<HomeController>();
+                    Get.delete<ProfileController>();
                   },
                   icon: Image.asset(
                     'assets/love_icon.png',
@@ -76,6 +85,9 @@ class BottomNavBar extends StatelessWidget {
                 child: IconButton(
                   onPressed: () {
                     controller.indexPage.value = 3;
+                    Get.put(ProfileController());
+                    Get.delete<HomeController>();
+                    Get.delete<WishlistController>();
                   },
                   icon: Image.asset(
                     'assets/profile_icon.png',

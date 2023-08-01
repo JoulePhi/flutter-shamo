@@ -23,18 +23,23 @@ class LoginView extends GetView<LoginController> {
                 title: 'Email Address',
                 hint: 'Your Email Address',
                 icon: 'assets/email_icon.png',
+                controller: controller.emailC,
               ),
               appFormField(
                 title: 'Password',
                 hint: 'Your Password',
                 icon: 'assets/password_icon.png',
                 obscured: true,
+                controller: controller.passwordC,
               ),
-              appFormButton(
-                title: 'Sign In',
-                onPressed: () {
-                  Get.toNamed('/main');
-                },
+              Obx(
+                () => appFormButton(
+                  title: 'Sign In',
+                  isLoading: controller.isLoading.value,
+                  onPressed: () async {
+                    await controller.login();
+                  },
+                ),
               ),
               const Spacer(),
               footer(),

@@ -1,7 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:shamo/app/style.dart';
 
-header() {
+header({
+  String profilePicture = '',
+  String name = '',
+  String username = '',
+  Function()? onTap,
+}) {
   return Container(
     width: double.infinity,
     color: bg3,
@@ -13,10 +19,10 @@ header() {
             width: 64,
             height: 64,
             margin: const EdgeInsets.only(right: 16),
-            decoration: const BoxDecoration(
+            decoration: BoxDecoration(
               shape: BoxShape.circle,
               image: DecorationImage(
-                image: AssetImage('assets/profile_image.png'),
+                image: NetworkImage('$profilePicture&format=png&size=128'),
               ),
             ),
           ),
@@ -24,15 +30,20 @@ header() {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  'Hallo, Alex',
-                  style: whiteText.copyWith(
-                    fontSize: 24,
-                    fontWeight: semiBold,
+                FittedBox(
+                  child: Container(
+                    margin: const EdgeInsets.only(right: 10),
+                    child: Text(
+                      'Hallo, ${name.split(' ')[0]}',
+                      style: whiteText.copyWith(
+                        fontSize: 24,
+                        fontWeight: semiBold,
+                      ),
+                    ),
                   ),
                 ),
                 Text(
-                  '@alexkeinn',
+                  '@$username',
                   style: subtitleText.copyWith(
                     fontSize: 16,
                   ),
@@ -41,7 +52,7 @@ header() {
             ),
           ),
           IconButton(
-            onPressed: () {},
+            onPressed: onTap,
             icon: Image.asset(
               'assets/logout_icon.png',
               width: 20,
@@ -64,7 +75,11 @@ body() {
           style: whiteText.copyWith(fontSize: 16, fontWeight: semiBold),
         ),
         spaceV(16),
-        menu(title: 'Edit Profile'),
+        menu(
+            title: 'Edit Profile',
+            onTap: () {
+              Get.offAndToNamed('/edit-profile');
+            }),
         spaceV(20),
         menu(title: 'Your Orders'),
         spaceV(20),
@@ -88,21 +103,25 @@ body() {
 
 menu({
   required String title,
+  Function()? onTap,
 }) {
-  return SizedBox(
-    child: Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        Text(
-          title,
-          style: productCategoryText,
-        ),
-        Image.asset(
-          'assets/arrow_right_icon.png',
-          width: 8,
-        ),
-      ],
+  return GestureDetector(
+    onTap: onTap,
+    child: SizedBox(
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Text(
+            title,
+            style: productCategoryText,
+          ),
+          Image.asset(
+            'assets/arrow_right_icon.png',
+            width: 8,
+          ),
+        ],
+      ),
     ),
   );
 }

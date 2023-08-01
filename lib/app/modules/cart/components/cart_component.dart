@@ -1,5 +1,8 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:shamo/app/data/models/cart_model.dart';
+import 'package:shamo/app/modules/cart/controllers/cart_controller.dart';
 import 'package:shamo/app/style.dart';
 
 header() {
@@ -90,21 +93,26 @@ button() {
   );
 }
 
-body() {
+body({
+  required CartController controller,
+}) {
   return Expanded(
     child: SizedBox(
       child: ListView(
+        physics: const BouncingScrollPhysics(),
         padding: const EdgeInsets.symmetric(horizontal: 30),
         children: [
           spaceV(30),
-          productCard(),
+          ...controller.cartItems
+              .map<Widget>((cart) => productCard(cart, controller))
+              .toList(),
         ],
       ),
     ),
   );
 }
 
-productCard() {
+productCard(CartItem cart, CartController controller) {
   return Container(
     padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
     margin: const EdgeInsets.only(bottom: 20),
@@ -123,8 +131,9 @@ productCard() {
               decoration: BoxDecoration(
                 color: primaryTextColor,
                 borderRadius: BorderRadius.circular(12),
-                image: const DecorationImage(
-                  image: AssetImage('assets/shoes_sample.png'),
+                image: DecorationImage(
+                  image: CachedNetworkImageProvider(
+                      cart.product!.galleries![0].url.toString()),
                 ),
               ),
             ),
@@ -133,14 +142,14 @@ productCard() {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Terrex Urban Low',
+                    cart.product!.name.toString(),
                     style: whiteText.copyWith(
                       fontSize: 14,
                       fontWeight: semiBold,
                     ),
                   ),
                   Text(
-                    '\$143,98',
+                    '\$${cart.product!.price}',
                     style: priceText,
                   ),
                 ],
@@ -149,39 +158,51 @@ productCard() {
             Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Container(
-                  width: 16,
-                  height: 16,
-                  decoration: const BoxDecoration(
-                    color: primaryColor,
-                    shape: BoxShape.circle,
-                  ),
-                  child: const Center(
-                    child: Icon(
-                      Icons.add_rounded,
-                      size: 12,
-                      color: primaryTextColor,
+                GestureDetector(
+                  onTap: () {
+                    controller.updateTotal(cart, true);
+                  },
+                  child: Container(
+                    width: 16,
+                    height: 16,
+                    decoration: const BoxDecoration(
+                      color: primaryColor,
+                      shape: BoxShape.circle,
+                    ),
+                    child: const Center(
+                      child: Icon(
+                        Icons.add_rounded,
+                        size: 12,
+                        color: primaryTextColor,
+                      ),
                     ),
                   ),
                 ),
                 Text(
-                  '2',
+                  cart.total.toString(),
                   style: whiteText.copyWith(
                     fontWeight: medium,
                   ),
                 ),
-                Container(
-                  width: 16,
-                  height: 16,
-                  decoration: const BoxDecoration(
-                    color: grey,
-                    shape: BoxShape.circle,
-                  ),
-                  child: const Center(
-                    child: Icon(
-                      Icons.remove_rounded,
-                      size: 12,
-                      color: primaryTextColor,
+                GestureDetector(
+                  onTap: () {
+                    if (cart.total! - 1 != 0) {
+                      controller.updateTotal(cart, false);
+                    }
+                  },
+                  child: Container(
+                    width: 16,
+                    height: 16,
+                    decoration: const BoxDecoration(
+                      color: grey,
+                      shape: BoxShape.circle,
+                    ),
+                    child: const Center(
+                      child: Icon(
+                        Icons.remove_rounded,
+                        size: 12,
+                        color: primaryTextColor,
+                      ),
                     ),
                   ),
                 ),
@@ -190,28 +211,35 @@ productCard() {
           ],
         ),
         spaceV(12),
-        Row(
-          children: [
-            Image.asset(
-              'assets/trash_icon.png',
-              width: 10,
-            ),
-            spaceH(4),
-            Text(
-              'Remove',
-              style: alertText.copyWith(
-                fontSize: 12,
-                fontWeight: light,
+        GestureDetector(
+          onTap: () {
+            controller.deleteFromCart(cart);
+          },
+          child: Row(
+            children: [
+              Image.asset(
+                'assets/trash_icon.png',
+                width: 10,
               ),
-            )
-          ],
+              spaceH(4),
+              Text(
+                'Remove',
+                style: alertText.copyWith(
+                  fontSize: 12,
+                  fontWeight: light,
+                ),
+              )
+            ],
+          ),
         )
       ],
     ),
   );
 }
 
-buttonCheckout() {
+buttonCheckout({
+  required CartController controller,
+}) {
   return Container(
     decoration: const BoxDecoration(
       color: bg1,
@@ -224,7 +252,9 @@ buttonCheckout() {
       width: double.infinity,
       margin: const EdgeInsets.all(30),
       child: TextButton(
-        onPressed: () {},
+        onPressed: () {
+          Get.toNamed('/checkout', arguments: controller.cartItems);
+        },
         style: TextButton.styleFrom(
           backgroundColor: primaryColor,
           shape: RoundedRectangleBorder(
@@ -256,7 +286,9 @@ buttonCheckout() {
   );
 }
 
-totalPrice() {
+totalPrice({
+  required CartController controller,
+}) {
   return Container(
     padding: const EdgeInsets.all(30),
     child: Center(
@@ -267,10 +299,12 @@ totalPrice() {
             'Subtotal',
             style: whiteText,
           ),
-          Text(
-            '\$287,96',
-            style: priceText,
-          ),
+          Obx(
+            () => Text(
+              '\$${controller.totalPrice.value}',
+              style: priceText,
+            ),
+          )
         ],
       ),
     ),
