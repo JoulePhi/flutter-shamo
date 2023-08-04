@@ -19,7 +19,9 @@ class Gallery {
   factory Gallery.fromJson(Map<String, dynamic> json) => Gallery(
         id: json["id"],
         productId: json["product_id"],
-        url: "http://domaindzul.my.id/storage/${json["url"]}",
+        url: json['url'].toString().contains('http://domaindzul.my.id/storage/')
+            ? json['url']
+            : "http://domaindzul.my.id/storage/${json["url"]}",
       );
 
   Map<String, dynamic> toJson() => {

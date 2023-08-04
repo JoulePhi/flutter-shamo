@@ -1,5 +1,7 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:shamo/app/data/models/product_model.dart';
 import 'package:shamo/app/modules/product-detail/controllers/product_detail_controller.dart';
 import 'package:shamo/app/style.dart';
 
@@ -133,7 +135,9 @@ descriptionBox({
   );
 }
 
-similarShoes() {
+similarShoes({
+  required ProductDetailController controller,
+}) {
   return SizedBox(
     width: double.infinity,
     height: 200,
@@ -153,17 +157,18 @@ similarShoes() {
         SingleChildScrollView(
           physics: const BouncingScrollPhysics(),
           scrollDirection: Axis.horizontal,
-          child: Row(
-            children: [
-              spaceH(22),
-              similarShoesCard(),
-              similarShoesCard(),
-              similarShoesCard(),
-              similarShoesCard(),
-              similarShoesCard(),
-              similarShoesCard(),
-              spaceH(22),
-            ],
+          child: Obx(
+            () => controller.similarProducts.isEmpty
+                ? const SizedBox()
+                : Row(
+                    children: [
+                      spaceH(22),
+                      ...controller.similarProducts
+                          .map((Product product) => similarShoesCard(product))
+                          .toList(),
+                      spaceH(22),
+                    ],
+                  ),
           ),
         )
       ],
@@ -171,7 +176,7 @@ similarShoes() {
   );
 }
 
-similarShoesCard() {
+similarShoesCard(Product product) {
   return Container(
     width: 54,
     height: 54,
@@ -179,8 +184,8 @@ similarShoesCard() {
     decoration: BoxDecoration(
       borderRadius: BorderRadius.circular(6),
       color: primaryTextColor,
-      image: const DecorationImage(
-        image: AssetImage('assets/shoes_sample.png'),
+      image: DecorationImage(
+        image: CachedNetworkImageProvider(product.galleries![0].url.toString()),
       ),
     ),
   );
@@ -191,19 +196,24 @@ addToCartButton({
 }) {
   return Row(
     children: [
-      Container(
-        width: 54,
-        height: 54,
-        padding: const EdgeInsets.all(16),
-        margin: const EdgeInsets.only(left: 30),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(12),
-          color: bg1,
-          border: Border.all(color: primaryColor),
-        ),
-        child: Image.asset(
-          'assets/chat_icon.png',
-          color: primaryColor,
+      GestureDetector(
+        onTap: () {
+          Get.toNamed('/chat-detail', arguments: controller.product);
+        },
+        child: Container(
+          width: 54,
+          height: 54,
+          padding: const EdgeInsets.all(16),
+          margin: const EdgeInsets.only(left: 30),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(12),
+            color: bg1,
+            border: Border.all(color: primaryColor),
+          ),
+          child: Image.asset(
+            'assets/chat_icon.png',
+            color: primaryColor,
+          ),
         ),
       ),
       Expanded(

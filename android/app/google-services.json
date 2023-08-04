@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "956911833987",
+    "project_id": "silicon-guru-353414",
+    "storage_bucket": "silicon-guru-353414.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:956911833987:android:fce0bfc266445fb0391cb6",
+        "android_client_info": {
+          "package_name": "com.shamo.fe"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "956911833987-1ko8g9np9g9a5daot8vsp48mnqsnur4q.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBThMpI5EH7nTLhkwhfO36eJ-009ZuKxec"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "956911833987-1ko8g9np9g9a5daot8vsp48mnqsnur4q.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

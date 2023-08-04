@@ -11,6 +11,7 @@ class ProductDetailController extends GetxController {
   var isLoading = false.obs;
   Product product = Get.arguments['product'];
   Category category = Get.arguments['category'];
+  RxList<Product> similarProducts = <Product>[].obs;
   var isWishlist = false.obs;
   void addToWishlist() async {
     try {
@@ -38,10 +39,18 @@ class ProductDetailController extends GetxController {
   }
 
   @override
-  void onInit() {
+  void onInit() async {
     product = Get.arguments['product'];
     category = Get.arguments['category'];
     isWishlist.value = product.isWishlist!;
+    ProductApiController().getSimilarProduct(category).then((value) {
+      for (Map<String, dynamic> loopproduct in value['data']['data'][0]
+          ['products']) {
+        similarProducts.addIf(Product.fromJson(loopproduct).id != product.id,
+            Product.fromJson(loopproduct));
+      }
+    });
+
     super.onInit();
   }
 }

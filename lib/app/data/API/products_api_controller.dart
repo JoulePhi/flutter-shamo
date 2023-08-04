@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:shamo/app/controllers/user_controller.dart';
 import 'package:shamo/app/data/exceptions/api_exception.dart';
 import 'package:shamo/app/data/models/cart_model.dart';
+import 'package:shamo/app/data/models/category_model.dart';
 import 'package:shamo/app/data/models/product_model.dart';
 import 'package:shamo/app/data/models/wishlist_model.dart';
 
@@ -51,6 +52,36 @@ class ProductApiController extends GetConnect {
         },
         query: {
           'show_product': '1',
+        },
+      );
+      printInfo(info: result.body.toString());
+      if (result.body == null) {
+        throw ApiException('Failed to Get Categories');
+      }
+      if (result.statusCode == 200) {
+        return result.body;
+      } else {
+        throw ApiException(
+            result.body['message'] ?? 'Failed to Get Categories');
+      }
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<Map<String, dynamic>> getSimilarProduct(Category category) async {
+    storage = FlutterSecureStorage(aOptions: _getAndroidOptions());
+    String? token = await storage.read(key: 'token');
+    try {
+      final result = await get(
+        '$url/categories',
+        headers: {
+          'Accept': 'application/json',
+          'Authorization': 'Bearer $token',
+        },
+        query: {
+          'show_product': '1',
+          'name': category.name,
         },
       );
       printInfo(info: result.body.toString());

@@ -58,7 +58,7 @@ class Product {
         "price": price,
         "description": description,
         "tags": tags,
-        "galleries": galleries,
+        "galleries": galleries!.map((e) => e.toJson()),
         "categories_id": categoriesId,
         'is_wishlist': isWishlist,
         "created_at": createdAt?.toIso8601String(),

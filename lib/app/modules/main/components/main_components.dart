@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shamo/app/modules/main/controllers/chat_controller_controller.dart';
 import 'package:shamo/app/modules/main/controllers/home_controller.dart';
 import 'package:shamo/app/modules/main/controllers/main_controller.dart';
 import 'package:shamo/app/modules/main/controllers/profile_controller.dart';
@@ -36,6 +37,7 @@ class BottomNavBar extends StatelessWidget {
                     Get.put(HomeController());
                     Get.delete<WishlistController>();
                     Get.delete<ProfileController>();
+                    Get.delete<ChatController>();
                   },
                   icon: Image.asset(
                     'assets/home_icon.png',
@@ -51,6 +53,10 @@ class BottomNavBar extends StatelessWidget {
                 child: IconButton(
                   onPressed: () {
                     controller.indexPage.value = 1;
+                    Get.put(ChatController());
+                    Get.delete<WishlistController>();
+                    Get.delete<ProfileController>();
+                    Get.delete<HomeController>();
                   },
                   icon: Image.asset(
                     'assets/chat_icon.png',
@@ -70,6 +76,7 @@ class BottomNavBar extends StatelessWidget {
                     Get.put(WishlistController());
                     Get.delete<HomeController>();
                     Get.delete<ProfileController>();
+                    Get.delete<ChatController>();
                   },
                   icon: Image.asset(
                     'assets/love_icon.png',
@@ -88,6 +95,7 @@ class BottomNavBar extends StatelessWidget {
                     Get.put(ProfileController());
                     Get.delete<HomeController>();
                     Get.delete<WishlistController>();
+                    Get.delete<ChatController>();
                   },
                   icon: Image.asset(
                     'assets/profile_icon.png',

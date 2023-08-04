@@ -61,7 +61,7 @@ class ProductDetailView extends GetView<ProductDetailController> {
                     title(controller: controller),
                     priceBox(),
                     descriptionBox(controller: controller),
-                    similarShoes(),
+                    similarShoes(controller: controller),
                   ],
                 ),
               )),
