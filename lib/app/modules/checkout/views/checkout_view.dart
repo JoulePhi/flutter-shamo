@@ -20,7 +20,7 @@ class CheckoutView extends GetView<CheckoutController> {
           ],
         ),
       ),
-      bottomNavigationBar: buttonCheckout(),
+      bottomNavigationBar: buttonCheckout(controller),
     );
   }
 }

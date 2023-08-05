@@ -75,7 +75,9 @@ button() {
     width: 150,
     margin: const EdgeInsets.only(top: 20),
     child: TextButton(
-      onPressed: () {},
+      onPressed: () {
+        Get.back();
+      },
       style: TextButton.styleFrom(
         backgroundColor: primaryColor,
         shape: RoundedRectangleBorder(

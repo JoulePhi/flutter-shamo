@@ -50,6 +50,7 @@ class CartController extends GetxController {
   @override
   void onInit() async {
     isLoading.value = true;
+    print('on INTI');
     final rawCart = await ProductApiController().getCarts();
     for (var cart in rawCart) {
       cartItems.add(CartItem.fromJson(cart));

@@ -6,6 +6,7 @@ import 'package:shamo/app/data/models/cart_model.dart';
 import 'package:shamo/app/data/models/category_model.dart';
 import 'package:shamo/app/data/models/product_model.dart';
 import 'package:shamo/app/data/models/wishlist_model.dart';
+import 'package:shamo/app/data/models/checkout_model.dart';
 
 class ProductApiController extends GetConnect {
   String url = 'http://domaindzul.my.id/api';
@@ -297,6 +298,56 @@ class ProductApiController extends GetConnect {
       } else {
         throw ApiException(
             result.body['message'] ?? 'Failed to remove from cart');
+      }
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<bool> checkout(Checkout checkout) async {
+    storage = FlutterSecureStorage(aOptions: _getAndroidOptions());
+    String? token = await storage.read(key: 'token');
+    try {
+      final result = await post(
+        '$url/checkout',
+        checkout.toJson(),
+        headers: {
+          'Accept': 'application/json',
+          'Authorization': 'Bearer $token',
+        },
+      );
+      printInfo(info: result.body.toString());
+      if (result.body == null) {
+        throw ApiException('Failed to Checkout');
+      }
+      if (result.statusCode == 200) {
+        return true;
+      } else {
+        throw ApiException(result.body['message'] ?? 'Failed to Checkout');
+      }
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<Map<String, dynamic>> getOrders() async {
+    storage = FlutterSecureStorage(aOptions: _getAndroidOptions());
+    String? token = await storage.read(key: 'token');
+    try {
+      final result = await get(
+        '$url/transactions',
+        headers: {
+          'Accept': 'application/json',
+          'Authorization': 'Bearer $token',
+        },
+      );
+      if (result.body == null) {
+        throw ApiException('Failed to get orders item');
+      }
+      if (result.statusCode == 200) {
+        return result.body['data'];
+      } else {
+        throw ApiException('Failed to get orders item');
       }
     } catch (e) {
       rethrow;

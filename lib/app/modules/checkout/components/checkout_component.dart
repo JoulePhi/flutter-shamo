@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shamo/app/data/models/cart_model.dart';
+import 'package:shamo/app/modules/cart/controllers/cart_controller.dart';
 import 'package:shamo/app/modules/checkout/controllers/checkout_controller.dart';
 import 'package:shamo/app/style.dart';
 
@@ -125,7 +126,7 @@ productCard({
   );
 }
 
-buttonCheckout() {
+buttonCheckout(CheckoutController controller) {
   return Container(
     decoration: const BoxDecoration(
       color: bg1,
@@ -139,7 +140,8 @@ buttonCheckout() {
       margin: const EdgeInsets.all(30),
       child: TextButton(
         onPressed: () {
-          Get.toNamed('/checkout-success');
+          controller.checkOut();
+          Get.delete<CartController>();
         },
         style: TextButton.styleFrom(
           backgroundColor: primaryColor,
@@ -148,15 +150,22 @@ buttonCheckout() {
           ),
         ),
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 10),
-          child: Text(
-            'Checkout Now',
-            style: whiteText.copyWith(
-              fontSize: 16,
-              fontWeight: semiBold,
-            ),
-          ),
-        ),
+            padding: const EdgeInsets.symmetric(horizontal: 10),
+            child: Obx(
+              () => controller.isLoading.value
+                  ? const Center(
+                      child: CircularProgressIndicator(
+                        color: primaryTextColor,
+                      ),
+                    )
+                  : Text(
+                      'Checkout Now',
+                      style: whiteText.copyWith(
+                        fontSize: 16,
+                        fontWeight: semiBold,
+                      ),
+                    ),
+            )),
       ),
     ),
   );

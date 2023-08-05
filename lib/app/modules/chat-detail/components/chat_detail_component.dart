@@ -186,6 +186,13 @@ Widget messageInput({
                 focusNode: controller.typeNode,
                 controller: controller.messageController,
                 cursorColor: secondaryColor,
+                onFieldSubmitted: (value) {
+                  controller.typeNode.requestFocus();
+                  controller.addMessage(product: controller.product.value);
+                  controller.messageController.text = "";
+                  controller.product.value = UninitializedProduct();
+                },
+                autofocus: true,
                 decoration: InputDecoration.collapsed(
                   hintText: 'Type Message...',
                   hintStyle: subtitleText,

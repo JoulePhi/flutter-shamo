@@ -81,7 +81,9 @@ button2() {
     width: 196,
     margin: const EdgeInsets.only(top: 20),
     child: TextButton(
-      onPressed: () {},
+      onPressed: () {
+        Get.toNamed('/my-orders');
+      },
       style: TextButton.styleFrom(
         backgroundColor: bottomNavColor,
         shape: RoundedRectangleBorder(

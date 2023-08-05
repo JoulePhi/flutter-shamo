@@ -81,7 +81,11 @@ body() {
               Get.offAndToNamed('/edit-profile');
             }),
         spaceV(20),
-        menu(title: 'Your Orders'),
+        menu(
+            title: 'Your Orders',
+            onTap: () {
+              Get.toNamed('/my-orders');
+            }),
         spaceV(20),
         menu(title: 'Help'),
         spaceV(30),

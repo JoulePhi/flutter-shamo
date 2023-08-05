@@ -36,7 +36,7 @@ class ProductDetailView extends GetView<ProductDetailController> {
                 width: 20,
               ),
               onPressed: () {
-                Get.back();
+                Get.toNamed('/cart');
               },
             ),
           ],

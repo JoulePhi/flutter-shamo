@@ -30,7 +30,7 @@ class CartItem {
         id: json["id"],
         productId: json["product_id"],
         cartId: json["cart_id"],
-        total: json['total'],
+        total: json['total'] ?? json['quantity'],
         createdAt: json["created_at"] == null
             ? null
             : DateTime.parse(json["created_at"]),
@@ -41,11 +41,12 @@ class CartItem {
       );
 
   Map<String, dynamic> toJson() => {
-        "id": id,
+        "id": productId,
         "product_id": productId,
         "wishlist_id": cartId,
         "created_at": createdAt?.toIso8601String(),
         "updated_at": updatedAt?.toIso8601String(),
         "product": product!.toJson().toString(),
+        'quantity': total,
       };
 }
